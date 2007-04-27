@@ -33,10 +33,10 @@ processor='''\
    \\    X   
    Q    /   '''
 
-processor2='''\
-  3 \\ 
-  /  '''
-
+modifier='''\
+ >  3    /  
+        @ @ '''
+  
   
 class FieldWidget(QtGui.QWidget):
     def __init__(self,parent=None):
@@ -45,7 +45,7 @@ class FieldWidget(QtGui.QWidget):
         # Set up the UI from designer
         self.ui=Ui_Form()
         self.ui.setupUi(self)
-        data=processor
+        data=modifier
         self.ui.field.output=self.ui.output
         self.field=Field(self.ui.field,data=data)
         Ball(self.field,0,0).setSpeed(1)
@@ -139,7 +139,8 @@ class Field(QtCore.QObject):
                     Grille(self,x,y)
                 elif char=='X':
                     Processor(self,x,y)
-                    
+                elif char=='@':
+                    Always(self,x,y)
                 x+=1 
             y+=1
             
@@ -326,6 +327,24 @@ class SlashWall(FlipObject):
         sx=-ball.sy
         ball.sx=sx
         ball.sy=sy
+        mods=[]
+        if self.y>0 and self.x<self.field.width-1:
+            m=self.field.objects[self.x-1][self.y-1]
+            if m:
+                mods.append(m)
+        if self.y<self.field.height-1 and self.x>0:
+            m=self.field.objects[self.x+1][self.y+1]
+            if m:
+                mods.append(m)
+        mval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in mods ]))
+        if mval:
+            # Flip to BSlashWall
+            for i in range(0,90):
+                self.item.rotate(1)
+                self.item.moveBy(9./90.,0)
+                QtGui.qApp.processEvents()
+            BSlashWall(self.field,self.x,self.y)
+            self.item.scene().removeItem(self.item)    
 
 class BSlashWall(FlipObject):
     def graphicsItem(self):
@@ -339,6 +358,30 @@ class BSlashWall(FlipObject):
         sx=ball.sy
         ball.sx=sx
         ball.sy=sy
+        
+        mods=[]
+        if self.y>0 and self.x>0:
+            m=self.field.objects[self.x-1][self.y-1]
+            if m:
+                mods.append(m)
+        if self.y<self.field.height-1 and self.x<self.field.width-1:
+            m=self.field.objects[self.x+1][self.y+1]
+            if m:
+                mods.append(m)
+        mval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in mods ]))
+        if mval:
+            # Flip to SlashWall
+            for i in range(0,90):
+                self.item.rotate(1)
+                self.item.moveBy(9./90.,0)
+                QtGui.qApp.processEvents()
+            SlashWall(self.field,self.x,self.y)
+            self.item.scene().removeItem(self.item)    
+                    
+        
+                
+        
+                
 
 class RightSluice(FlipObject):
     def graphicsItem(self):
@@ -452,6 +495,10 @@ class PlusTarpit(TextObject):
             ball.setValue(ball.value+self.value)
             self.item.setText("+")
             self.value=None
+    def mvalue(self,v):
+        if v>0:
+            return 1
+        return 0
 
 class MulTarpit(TextObject):
     def __init__(self,field,x,y):
@@ -506,9 +553,13 @@ class CharOut(TextObject):
             self.field.output(chr(ball.value))
             ball.kill()
 
-class Terminate(TextObject):
-    def __init__(self,field,x,y):
-        TextObject.__init__(self,field,x,y,'Q')
+class Terminate(FlipObject):
+    def graphicsItem(self):
+        self.item=QtSvg.QGraphicsSvgItem('terminate.svg')
+        self.item.setZValue(1)
+        self.item.scale(0.009,0.009)
+        self.item.setPos(10*self.x+.5,10*self.y+.5)
+        return self.item
     def handle(self,ball):
         ball.kill()
         self.field.terminate=True
@@ -519,9 +570,13 @@ class Grille(TextObject):
     def handle(self,ball):
         if ball.value<=0:
             ball.kill()
-class Processor(TextObject):
-    def __init__(self,field,x,y):
-        TextObject.__init__(self,field,x,y,'X')
+class Processor(FlipObject):
+    def graphicsItem(self):
+        self.item=QtSvg.QGraphicsSvgItem('processor.svg')
+        self.item.setZValue(1)
+        self.item.scale(0.009,0.009)
+        self.item.setPos(10*self.x+.5,10*self.y+.5)
+        return self.item
     def handle(self,ball):
         v=ball.value
         sx1=ball.sy
@@ -534,7 +589,11 @@ class Processor(TextObject):
         b2=Ball(self.field,self.x,self.y,v)
         b2.setSpeed(sx2,sy2)
         
-                
+class Always(TextObject):
+    def __init__(self,field,x,y):
+        TextObject.__init__(self,field,x,y,'@')
+    def mvalue(self,v):
+        return 1
             
 def main():
     app=QtGui.QApplication(sys.argv)
