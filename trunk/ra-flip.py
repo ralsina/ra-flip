@@ -5,7 +5,7 @@ from PyQt4 import QtCore,QtGui,QtSvg
 
 from Ui_field import Ui_Form
 
-delay=0
+delay=500
 
 walls='''\
       \\  
@@ -215,18 +215,17 @@ class Field(QtCore.QObject):
             if not ball: continue
             ball.animated=False
         
-        for i in range(0,100):
+        for i in range(0,10):
             for i in range(0,len(self.balls)):
                 ball=self.balls[i]
                 if not ball: continue
-                ball.item.moveBy(ball.sx/10.,ball.sy/10.)
+                ball.item.moveBy(ball.sx,ball.sy)
             QtGui.qApp.processEvents()
 
         for ball in self.balls:
             if not ball: continue
             ball.animate()
 
-                    
         for x in range(0,self.width):
             for y in range(0,self.height):
                 object=self.objects[x][y]
