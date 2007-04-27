@@ -216,6 +216,10 @@ class Field(QtCore.QObject):
                 obj.handle(ball)
                     
                     
+class Modifier:
+    def mvalue(self,v):
+        # Objects by default don't modify
+        return 0
                     
 class FlipObject:
     def __init__(self,field,x,y):
@@ -330,7 +334,7 @@ class SlashWall(FlipObject):
         mods=[]
         if self.y>0 and self.x<self.field.width-1:
             m=self.field.objects[self.x-1][self.y-1]
-            if m:
+            if m and isinstance(m,Modifier):
                 mods.append(m)
         if self.y<self.field.height-1 and self.x>0:
             m=self.field.objects[self.x+1][self.y+1]
@@ -366,7 +370,7 @@ class BSlashWall(FlipObject):
                 mods.append(m)
         if self.y<self.field.height-1 and self.x<self.field.width-1:
             m=self.field.objects[self.x+1][self.y+1]
-            if m:
+            if m and isinstance(m,Modifier):
                 mods.append(m)
         mval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in mods ]))
         if mval:
@@ -481,7 +485,7 @@ class Generator(TextObject):
         b.setSpeed(sx,sy)
         ball.setSpeed(-sx,-sy)
         
-class PlusTarpit(TextObject):
+class PlusTarpit(TextObject,Modifier):
     def __init__(self,field,x,y):
         self.value=None
         TextObject.__init__(self,field,x,y,'+')
@@ -589,7 +593,7 @@ class Processor(FlipObject):
         b2=Ball(self.field,self.x,self.y,v)
         b2.setSpeed(sx2,sy2)
         
-class Always(TextObject):
+class Always(TextObject,Modifier):
     def __init__(self,field,x,y):
         TextObject.__init__(self,field,x,y,'@')
     def mvalue(self,v):
