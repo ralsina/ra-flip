@@ -160,6 +160,8 @@ class Field(QtCore.QObject):
                     Odd(self,x,y)
                 elif char=='%':
                     Random(self,x,y)
+                else:
+                    TextObject(self,x,y,char)
                 x+=1 
             y+=1
             
