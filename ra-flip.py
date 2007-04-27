@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys
+import sys,random
 from PyQt4 import QtCore,QtGui,QtSvg
 
 from Ui_field import Ui_Form
@@ -35,7 +35,12 @@ processor='''\
 
 modifier='''\
  >  3    /  
-        @ @ '''
+        % % '''
+        
+modified_flippers='\n'.join([r"""  \   \   \     \ """,
+                             r'''   @   @   @     ''',
+                             r'''  2   3   4      ''',
+                             r'''p +   +   /     Q'''])
   
   
 class FieldWidget(QtGui.QWidget):
@@ -45,7 +50,7 @@ class FieldWidget(QtGui.QWidget):
         # Set up the UI from designer
         self.ui=Ui_Form()
         self.ui.setupUi(self)
-        data=modifier
+        data=modified_flippers
         self.ui.field.output=self.ui.output
         self.field=Field(self.ui.field,data=data)
         Ball(self.field,0,0).setSpeed(1)
@@ -88,12 +93,9 @@ class Field(QtCore.QObject):
             
     def loadData(self,data):
         lines=data.split('\n')
-        print lines
         self.width=len(lines[0])
         self.height=len(lines)
-        print self.width,self.height
         self.objects=[ [ None for y in range (0,self.height) ] for x in range(0,self.width)]
-        print self.objects
         self.setupBoard()
         y=0
         for line in lines:
@@ -115,8 +117,10 @@ class Field(QtCore.QObject):
                     UpSluice(self,x,y)
                 elif char=='v':
                     DownSluice(self,x,y)
-                elif char in "0123456789":
+                elif char in "123456789":
                     Generator(self,x,y,char)
+                elif char=='0':
+                    ZeroGen(self,x,y)
                 elif char=='+':
                     PlusTarpit(self,x,y)
                 elif char=='*':
@@ -141,10 +145,13 @@ class Field(QtCore.QObject):
                     Processor(self,x,y)
                 elif char=='@':
                     Always(self,x,y)
+                elif char=='~':
+                    Odd(self,x,y)
+                elif char=='%':
+                    Random(self,x,y)
                 x+=1 
             y+=1
             
-        print self.objects
         
         
     def setupBoard(self):
@@ -156,7 +163,6 @@ class Field(QtCore.QObject):
                 
         
     def addItem(self,item):
-        print "Field::addItem"
         if isinstance(item,Ball):
             self.balls.append(item)
         else:
@@ -291,7 +297,6 @@ class Ball(FlipObject):
         if x>=self.field.width or y>=self.field.height or x<0 or y < 0:
             self.kill()
             return            
-        print x,y,self.field.objects[x][y]
         self.x=x
         self.y=y
 
@@ -308,7 +313,7 @@ class VertWall(FlipObject):
     def handle(self,ball):
         ball.sx=-ball.sx
 
-class HorizWall(FlipObject):
+class HorizWall(FlipObject,Modifier):
     def graphicsItem(self):
         self.item=QtSvg.QGraphicsSvgItem('hwall.svg')
         self.item.setZValue(1)
@@ -318,6 +323,10 @@ class HorizWall(FlipObject):
 
     def handle(self,ball):
         ball.sy=-ball.sy
+    def mvalue(self,v):
+        if v>0:
+            return 1
+        return 0
         
 class SlashWall(FlipObject):
     def graphicsItem(self):
@@ -340,6 +349,8 @@ class SlashWall(FlipObject):
             m=self.field.objects[self.x+1][self.y+1]
             if m:
                 mods.append(m)
+        if not mods:
+            return
         mval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in mods ]))
         if mval:
             # Flip to BSlashWall
@@ -372,6 +383,8 @@ class BSlashWall(FlipObject):
             m=self.field.objects[self.x+1][self.y+1]
             if m and isinstance(m,Modifier):
                 mods.append(m)
+        if not mods:
+            return
         mval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in mods ]))
         if mval:
             # Flip to SlashWall
@@ -478,13 +491,22 @@ class Generator(TextObject):
         self.n=int(n)
         
     def handle(self,ball):
-        print "Generator.handle"
         sx=ball.sx
         sy=ball.sy
         b=Ball(self.field,self.x,self.y,value=self.n)
         b.setSpeed(sx,sy)
         ball.setSpeed(-sx,-sy)
         
+class ZeroGen(Generator,Modifier):            
+    def __init__(self,field,x,y):
+        Generator.__init__(self,field,x,y,'0')
+        self.n=0
+        
+    def mvalue(self,v):
+        if v==0:
+            return 1
+        return 0
+            
 class PlusTarpit(TextObject,Modifier):
     def __init__(self,field,x,y):
         self.value=None
@@ -598,6 +620,19 @@ class Always(TextObject,Modifier):
         TextObject.__init__(self,field,x,y,'@')
     def mvalue(self,v):
         return 1
+class Odd(TextObject,Modifier):
+    def __init__(self,field,x,y):
+        TextObject.__init__(self,field,x,y,'~')
+    def mvalue(self,v):
+        return v%2
+
+class Random(TextObject,Modifier):
+    def __init__(self,field,x,y):
+        TextObject.__init__(self,field,x,y,'%')
+    def mvalue(self,v):
+        v=random.randint(0,1)
+        print v
+        return v
             
 def main():
     app=QtGui.QApplication(sys.argv)
