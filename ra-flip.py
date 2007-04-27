@@ -50,6 +50,9 @@ modified_sluices='\n'.join([r'  > 5  \   p ',
                             r'   @         ',
                             r'  \         Q'])
   
+modified_sluices2='''\
+     @v
+      ^'''
   
 class FieldWidget(QtGui.QWidget):
     def __init__(self,parent=None):
@@ -58,8 +61,7 @@ class FieldWidget(QtGui.QWidget):
         # Set up the UI from designer
         self.ui=Ui_Form()
         self.ui.setupUi(self)
-        data=modified_sluices
-##        data=modifier
+        data=modified_sluices2
         self.ui.field.output=self.ui.output
         self.field=Field(self.ui.field,data=data)
         Ball(self.field,0,0).setSpeed(1)
@@ -519,7 +521,39 @@ class DownSluice(FlipObject):
         if ball.sy>0:
             return
         elif ball.sy<0:
-            ball.sy=-ball.sy
+
+            # Evaluate left modifiers
+            lval=0
+            lmods=[]
+            if self.x>0:
+                if self.y>0:
+                    m=self.field.objects[self.x-1][self.y-1]
+                    if m and isinstance(m,Modifier): lmods.append(m)
+                if self.y<self.field.height-1:
+                    m=self.field.objects[self.x-1][self.y+1]
+                    if m and isinstance(m,Modifier): lmods.append(m)
+            if lmods:
+                lval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in lmods ]))
+                
+            # Evaluate right modifiers
+            rval=0
+            rmods=[]
+            if self.x<self.field.width-1:
+                if self.y>0:
+                    m=self.field.objects[self.x+1][self.y-1]
+                    if m and isinstance(m,Modifier): rmods.append(m)
+                if self.y<self.field.height-1:
+                    m=self.field.objects[self.x+1][self.y+1]
+                    if m and isinstance(m,Modifier): rmods.append(m)
+            if rmods:
+                rval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in rmods ]))
+            
+            if lval == rval: # Equal: bounce ball
+                ball.sy=-ball.sy
+            elif lval: # Go left
+                ball.setSpeed(-1,0)
+            else: # Go right
+                ball.setSpeed(1,0)
         else:
             ball.sy=1
             ball.sx=0
@@ -537,7 +571,39 @@ class UpSluice(FlipObject):
         if ball.sy<0:
             return
         elif ball.sy>0:
-            ball.sy=-ball.sy
+
+            # Evaluate left modifiers
+            lval=0
+            lmods=[]
+            if self.x>0:
+                if self.y>0:
+                    m=self.field.objects[self.x-1][self.y-1]
+                    if m and isinstance(m,Modifier): lmods.append(m)
+                if self.y<self.field.height-1:
+                    m=self.field.objects[self.x-1][self.y+1]
+                    if m and isinstance(m,Modifier): lmods.append(m)
+            if lmods:
+                lval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in lmods ]))
+                
+            # Evaluate right modifiers
+            rval=0
+            rmods=[]
+            if self.x<self.field.width-1:
+                if self.y>0:
+                    m=self.field.objects[self.x+1][self.y-1]
+                    if m and isinstance(m,Modifier): rmods.append(m)
+                if self.y<self.field.height-1:
+                    m=self.field.objects[self.x+1][self.y+1]
+                    if m and isinstance(m,Modifier): rmods.append(m)
+            if rmods:
+                rval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in rmods ]))
+            
+            if lval == rval: # Equal: bounce ball
+                ball.sy=-ball.sy
+            elif lval: # Go left
+                ball.setSpeed(-1,0)
+            else: # Go right
+                ball.setSpeed(1,0)
         else:
             ball.sy=-1
             ball.sx=0
