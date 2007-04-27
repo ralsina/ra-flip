@@ -53,6 +53,12 @@ modified_sluices='\n'.join([r'  > 5  \   p ',
 modified_sluices2='''\
      @v
       ^'''
+
+modified_processor='''\
+ >   \\    p     /      \\
+ '       ~ @            
+ \\   X    X             
+         ~\\     >      /'''
   
 class FieldWidget(QtGui.QWidget):
     def __init__(self,parent=None):
@@ -61,7 +67,7 @@ class FieldWidget(QtGui.QWidget):
         # Set up the UI from designer
         self.ui=Ui_Form()
         self.ui.setupUi(self)
-        data=modified_sluices2
+        data=modified_processor
         self.ui.field.output=self.ui.output
         self.field=Field(self.ui.field,data=data)
         Ball(self.field,0,0).setSpeed(1)
@@ -360,7 +366,7 @@ class SlashWall(FlipObject):
                 mods.append(m)
         if self.y<self.field.height-1 and self.x>0:
             m=self.field.objects[self.x+1][self.y+1]
-            if m:
+            if m and isinstance(m,Modifier):
                 mods.append(m)
         if not mods:
             return
@@ -390,7 +396,7 @@ class BSlashWall(FlipObject):
         mods=[]
         if self.y>0 and self.x>0:
             m=self.field.objects[self.x-1][self.y-1]
-            if m:
+            if m and isinstance(m,Modifier):
                 mods.append(m)
         if self.y<self.field.height-1 and self.x<self.field.width-1:
             m=self.field.objects[self.x+1][self.y+1]
@@ -746,16 +752,80 @@ class Processor(FlipObject):
         return self.item
     def handle(self,ball):
         v=ball.value
-        sx1=ball.sy
-        sx2=-ball.sy
-        sy1=ball.sx
-        sy2=-ball.sx
-        ball.kill()
-        b1=Ball(self.field,self.x,self.y,v)
-        b1.setSpeed(sx1,sy1)
-        b2=Ball(self.field,self.x,self.y,v)
-        b2.setSpeed(sx2,sy2)
+
+        # Evaluate top modifiers
+        tval=1
+        tmods=[]
+        if self.y>0:
+            if self.x>0:
+                m=self.field.objects[self.x-1][self.y-1]
+                if m and isinstance(m,Modifier): tmods.append(m)
+            if self.x<self.field.width-1:
+                m=self.field.objects[self.x+1][self.y-1]
+                if m and isinstance(m,Modifier): tmods.append(m)
+        if tmods:
+            tval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in tmods ]))
+            
+        # Evaluate bottom modifiers
+        bval=1
+        bmods=[]
+        if self.y<self.field.height-1:
+            if self.x>0:
+                m=self.field.objects[self.x-1][self.y+1]
+                if m and isinstance(m,Modifier): bmods.append(m)
+            if self.x<self.field.width-1:
+                m=self.field.objects[self.x+1][self.y+1]
+                if m and isinstance(m,Modifier): bmods.append(m)
+        if bmods:
+            bval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in bmods ]))
+
+
+        # Evaluate left modifiers
+        lval=1
+        lmods=[]
+        if self.x>0:
+            if self.y>0:
+                m=self.field.objects[self.x-1][self.y-1]
+                if m and isinstance(m,Modifier): lmods.append(m)
+            if self.y<self.field.height-1:
+                m=self.field.objects[self.x-1][self.y+1]
+                if m and isinstance(m,Modifier): lmods.append(m)
+        if lmods:
+            lval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in lmods ]))
+            
+        # Evaluate right modifiers
+        rval=1
+        rmods=[]
+        if self.x<self.field.width-1:
+            if self.y>0:
+                m=self.field.objects[self.x+1][self.y-1]
+                if m and isinstance(m,Modifier): rmods.append(m)
+            if self.y<self.field.height-1:
+                m=self.field.objects[self.x+1][self.y+1]
+                if m and isinstance(m,Modifier): rmods.append(m)
+        if rmods:
+            rval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in rmods ]))
         
+        
+        print lval,rval,tval,bval
+        
+        if ball.sx<>0:
+            print "x-ball"
+            # left or right ball
+            if tval: # new top ball
+                Ball(self.field,self.x,self.y,ball.value).setSpeed(0,-1)
+            if bval: # new bottom ball
+                Ball(self.field,self.x,self.y,ball.value).setSpeed(0,1)
+        else:
+            print "y-ball"
+            # up or down ball
+            if lval:
+                Ball(self.field,self.x,self.y,ball.value).setSpeed(-1,0)
+            if rval:
+                Ball(self.field,self.x,self.y,ball.value).setSpeed(1,0)
+
+        ball.kill()
+                
 class Always(TextObject,Modifier):
     def __init__(self,field,x,y):
         TextObject.__init__(self,field,x,y,'@')
