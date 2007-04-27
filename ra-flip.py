@@ -5,7 +5,7 @@ from PyQt4 import QtCore,QtGui,QtSvg
 
 from Ui_field import Ui_Form
 
-delay=100
+delay=0
 
 walls='''\
       \\  
@@ -35,12 +35,20 @@ processor='''\
 
 modifier='''\
  >  3    /  
-        % % '''
+        ~ % '''
         
 modified_flippers='\n'.join([r"""  \   \   \     \ """,
                              r'''   @   @   @     ''',
                              r'''  2   3   4      ''',
                              r'''p +   +   /     Q'''])
+                             
+modified_sluices='\n'.join([r'  > 5  \   p ',
+                            r'   @      ~ @',
+                            r'       >   <1',
+                            r'          ~  ',
+                            r'  > 4  /   \ ', 
+                            r'   @         ',
+                            r'  \         Q'])
   
   
 class FieldWidget(QtGui.QWidget):
@@ -50,7 +58,8 @@ class FieldWidget(QtGui.QWidget):
         # Set up the UI from designer
         self.ui=Ui_Form()
         self.ui.setupUi(self)
-        data=modified_flippers
+        data=modified_sluices
+##        data=modifier
         self.ui.field.output=self.ui.output
         self.field=Field(self.ui.field,data=data)
         Ball(self.field,0,0).setSpeed(1)
@@ -394,11 +403,6 @@ class BSlashWall(FlipObject):
                 QtGui.qApp.processEvents()
             SlashWall(self.field,self.x,self.y)
             self.item.scene().removeItem(self.item)    
-                    
-        
-                
-        
-                
 
 class RightSluice(FlipObject):
     def graphicsItem(self):
@@ -409,11 +413,44 @@ class RightSluice(FlipObject):
         return self.item
     
     def handle(self,ball):
-        if ball.sx>0:
+        if ball.sx>0: #Pass ball
             return
-        elif ball.sx<0:
-            ball.sx=-ball.sx
-        else:
+        elif ball.sx<0: #Bounce ball
+        
+            # Evaluate top modifiers
+            tval=0
+            tmods=[]
+            if self.y>0:
+                if self.x>0:
+                    m=self.field.objects[self.x-1][self.y-1]
+                    if m and isinstance(m,Modifier): tmods.append(m)
+                if self.x<self.field.width-1:
+                    m=self.field.objects[self.x+1][self.y-1]
+                    if m and isinstance(m,Modifier): tmods.append(m)
+            if tmods:
+                tval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in tmods ]))
+                
+            # Evaluate bottom modifiers
+            bval=0
+            bmods=[]
+            if self.y<self.field.height-1:
+                if self.x>0:
+                    m=self.field.objects[self.x-1][self.y+1]
+                    if m and isinstance(m,Modifier): bmods.append(m)
+                if self.x<self.field.width-1:
+                    m=self.field.objects[self.x+1][self.y+1]
+                    if m and isinstance(m,Modifier): bmods.append(m)
+            if bmods:
+                bval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in bmods ]))
+            
+            if bval == tval: # Equal: bounce ball
+                ball.sx=-ball.sx
+            elif bval: # Go down
+                ball.setSpeed(0,1)
+            else: # Go up
+                ball.setSpeed(0,-1)
+                
+        else: # Turn ball
             ball.sy=0
             ball.sx=1
 
@@ -426,11 +463,46 @@ class LeftSluice(FlipObject):
         return self.item
     
     def handle(self,ball):
-        if ball.sx<0:
+        if ball.sx<0: # Pass ball
             return
         elif ball.sx>0:
-            ball.sx=-ball.sx
-        else:
+        
+            # Evaluate top modifiers
+            tval=0
+            tmods=[]
+            if self.y>0:
+                if self.x>0:
+                    m=self.field.objects[self.x-1][self.y-1]
+                    if m and isinstance(m,Modifier): tmods.append(m)
+                if self.x<self.field.width-1:
+                    m=self.field.objects[self.x+1][self.y-1]
+                    if m and isinstance(m,Modifier): tmods.append(m)
+            if tmods:
+                tval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in tmods ]))
+                
+            # Evaluate bottom modifiers
+            bval=0
+            bmods=[]
+            if self.y<self.field.height-1:
+                if self.x>0:
+                    m=self.field.objects[self.x-1][self.y+1]
+                    if m and isinstance(m,Modifier): bmods.append(m)
+                if self.x<self.field.width-1:
+                    m=self.field.objects[self.x+1][self.y+1]
+                    if m and isinstance(m,Modifier): bmods.append(m)
+            if bmods:
+                bval=eval('^'.join([ str(mod.mvalue(ball.value)) for mod in bmods ]))
+            
+            print tval,bval,tmods,bmods,self.x,self.field.width
+                
+            if bval == tval: # Equal: bounce ball
+                ball.sx=-ball.sx
+            elif bval: # Go down
+                ball.setSpeed(0,1)
+            else: # Go up
+                ball.setSpeed(0,-1)
+                
+        else: # Turn ball
             ball.sy=0
             ball.sx=-1
 
@@ -541,11 +613,12 @@ class MulTarpit(TextObject):
             self.item.setText("*")
             self.value=None
     
-class Negate(TextObject):
+class Negate(TextObject,Modifier):
     def __init__(self,field,x,y):
         TextObject.__init__(self,field,x,y,'~')
     def handle(self,ball):
             ball.setValue(-ball.value)
+    def mvalue(self,v): return v%2
 
 class Increment(TextObject):
     def __init__(self,field,x,y):
@@ -620,12 +693,7 @@ class Always(TextObject,Modifier):
         TextObject.__init__(self,field,x,y,'@')
     def mvalue(self,v):
         return 1
-class Odd(TextObject,Modifier):
-    def __init__(self,field,x,y):
-        TextObject.__init__(self,field,x,y,'~')
-    def mvalue(self,v):
-        return v%2
-
+        
 class Random(TextObject,Modifier):
     def __init__(self,field,x,y):
         TextObject.__init__(self,field,x,y,'%')
