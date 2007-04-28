@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/mnt/centos/home/ralsina/Desktop/proyectos/ra-flip/field.ui'
 #
-# Created: Fri Apr 27 10:37:28 2007
+# Created: Sat Apr 28 17:50:55 2007
 #      by: PyQt4 UI code generator 4.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -76,10 +76,10 @@ class Ui_Form(object):
         self.field.setObjectName("field")
         self.hboxlayout.addWidget(self.field)
 
-        self.layoutWidget1 = QtGui.QWidget(self.splitter)
-        self.layoutWidget1.setObjectName("layoutWidget1")
+        self.widget = QtGui.QWidget(self.splitter)
+        self.widget.setObjectName("widget")
 
-        self.hboxlayout1 = QtGui.QHBoxLayout(self.layoutWidget1)
+        self.hboxlayout1 = QtGui.QHBoxLayout(self.widget)
         self.hboxlayout1.setMargin(0)
         self.hboxlayout1.setSpacing(6)
         self.hboxlayout1.setObjectName("hboxlayout1")
@@ -89,13 +89,21 @@ class Ui_Form(object):
         self.vboxlayout2.setSpacing(6)
         self.vboxlayout2.setObjectName("vboxlayout2")
 
-        self.label = QtGui.QLabel(self.layoutWidget1)
+        self.label = QtGui.QLabel(self.widget)
         self.label.setObjectName("label")
         self.vboxlayout2.addWidget(self.label)
 
-        self.input = QtGui.QTextEdit(self.layoutWidget1)
+        self.input = QtGui.QTextEdit(self.widget)
         self.input.setObjectName("input")
         self.vboxlayout2.addWidget(self.input)
+
+        self.label_2 = QtGui.QLabel(self.widget)
+        self.label_2.setObjectName("label_2")
+        self.vboxlayout2.addWidget(self.label_2)
+
+        self.output = QtGui.QTextBrowser(self.widget)
+        self.output.setObjectName("output")
+        self.vboxlayout2.addWidget(self.output)
         self.hboxlayout1.addLayout(self.vboxlayout2)
 
         self.vboxlayout3 = QtGui.QVBoxLayout()
@@ -103,13 +111,144 @@ class Ui_Form(object):
         self.vboxlayout3.setSpacing(6)
         self.vboxlayout3.setObjectName("vboxlayout3")
 
-        self.label_2 = QtGui.QLabel(self.layoutWidget1)
-        self.label_2.setObjectName("label_2")
-        self.vboxlayout3.addWidget(self.label_2)
+        self.vboxlayout4 = QtGui.QVBoxLayout()
+        self.vboxlayout4.setMargin(0)
+        self.vboxlayout4.setSpacing(6)
+        self.vboxlayout4.setObjectName("vboxlayout4")
 
-        self.output = QtGui.QTextBrowser(self.layoutWidget1)
-        self.output.setObjectName("output")
-        self.vboxlayout3.addWidget(self.output)
+        self.hboxlayout2 = QtGui.QHBoxLayout()
+        self.hboxlayout2.setMargin(0)
+        self.hboxlayout2.setSpacing(6)
+        self.hboxlayout2.setObjectName("hboxlayout2")
+
+        self.toolButton = QtGui.QToolButton(self.widget)
+        self.toolButton.setCheckable(True)
+        self.toolButton.setObjectName("toolButton")
+        self.hboxlayout2.addWidget(self.toolButton)
+
+        self.toolButton_2 = QtGui.QToolButton(self.widget)
+        self.toolButton_2.setCheckable(True)
+        self.toolButton_2.setObjectName("toolButton_2")
+        self.hboxlayout2.addWidget(self.toolButton_2)
+
+        self.toolButton_3 = QtGui.QToolButton(self.widget)
+        self.toolButton_3.setCheckable(True)
+        self.toolButton_3.setObjectName("toolButton_3")
+        self.hboxlayout2.addWidget(self.toolButton_3)
+
+        self.toolButton_4 = QtGui.QToolButton(self.widget)
+        self.toolButton_4.setCheckable(True)
+        self.toolButton_4.setObjectName("toolButton_4")
+        self.hboxlayout2.addWidget(self.toolButton_4)
+        self.vboxlayout4.addLayout(self.hboxlayout2)
+
+        self.hboxlayout3 = QtGui.QHBoxLayout()
+        self.hboxlayout3.setMargin(0)
+        self.hboxlayout3.setSpacing(6)
+        self.hboxlayout3.setObjectName("hboxlayout3")
+
+        self.toolButton_5 = QtGui.QToolButton(self.widget)
+        self.toolButton_5.setCheckable(True)
+        self.toolButton_5.setObjectName("toolButton_5")
+        self.hboxlayout3.addWidget(self.toolButton_5)
+
+        self.toolButton_26 = QtGui.QToolButton(self.widget)
+        self.toolButton_26.setCheckable(True)
+        self.toolButton_26.setObjectName("toolButton_26")
+        self.hboxlayout3.addWidget(self.toolButton_26)
+
+        self.toolButton_27 = QtGui.QToolButton(self.widget)
+        self.toolButton_27.setCheckable(True)
+        self.toolButton_27.setObjectName("toolButton_27")
+        self.hboxlayout3.addWidget(self.toolButton_27)
+
+        self.toolButton_28 = QtGui.QToolButton(self.widget)
+        self.toolButton_28.setCheckable(True)
+        self.toolButton_28.setObjectName("toolButton_28")
+        self.hboxlayout3.addWidget(self.toolButton_28)
+        self.vboxlayout4.addLayout(self.hboxlayout3)
+
+        self.hboxlayout4 = QtGui.QHBoxLayout()
+        self.hboxlayout4.setMargin(0)
+        self.hboxlayout4.setSpacing(6)
+        self.hboxlayout4.setObjectName("hboxlayout4")
+
+        self.toolButton_29 = QtGui.QToolButton(self.widget)
+        self.toolButton_29.setCheckable(True)
+        self.toolButton_29.setObjectName("toolButton_29")
+        self.hboxlayout4.addWidget(self.toolButton_29)
+
+        self.toolButton_30 = QtGui.QToolButton(self.widget)
+        self.toolButton_30.setCheckable(True)
+        self.toolButton_30.setObjectName("toolButton_30")
+        self.hboxlayout4.addWidget(self.toolButton_30)
+
+        self.toolButton_31 = QtGui.QToolButton(self.widget)
+        self.toolButton_31.setCheckable(True)
+        self.toolButton_31.setObjectName("toolButton_31")
+        self.hboxlayout4.addWidget(self.toolButton_31)
+
+        self.toolButton_32 = QtGui.QToolButton(self.widget)
+        self.toolButton_32.setCheckable(True)
+        self.toolButton_32.setObjectName("toolButton_32")
+        self.hboxlayout4.addWidget(self.toolButton_32)
+        self.vboxlayout4.addLayout(self.hboxlayout4)
+
+        self.hboxlayout5 = QtGui.QHBoxLayout()
+        self.hboxlayout5.setMargin(0)
+        self.hboxlayout5.setSpacing(6)
+        self.hboxlayout5.setObjectName("hboxlayout5")
+
+        self.toolButton_33 = QtGui.QToolButton(self.widget)
+        self.toolButton_33.setCheckable(True)
+        self.toolButton_33.setObjectName("toolButton_33")
+        self.hboxlayout5.addWidget(self.toolButton_33)
+
+        self.toolButton_34 = QtGui.QToolButton(self.widget)
+        self.toolButton_34.setCheckable(True)
+        self.toolButton_34.setObjectName("toolButton_34")
+        self.hboxlayout5.addWidget(self.toolButton_34)
+
+        self.toolButton_35 = QtGui.QToolButton(self.widget)
+        self.toolButton_35.setCheckable(True)
+        self.toolButton_35.setObjectName("toolButton_35")
+        self.hboxlayout5.addWidget(self.toolButton_35)
+
+        self.toolButton_36 = QtGui.QToolButton(self.widget)
+        self.toolButton_36.setCheckable(True)
+        self.toolButton_36.setObjectName("toolButton_36")
+        self.hboxlayout5.addWidget(self.toolButton_36)
+        self.vboxlayout4.addLayout(self.hboxlayout5)
+
+        self.hboxlayout6 = QtGui.QHBoxLayout()
+        self.hboxlayout6.setMargin(0)
+        self.hboxlayout6.setSpacing(6)
+        self.hboxlayout6.setObjectName("hboxlayout6")
+
+        self.toolButton_37 = QtGui.QToolButton(self.widget)
+        self.toolButton_37.setCheckable(True)
+        self.toolButton_37.setObjectName("toolButton_37")
+        self.hboxlayout6.addWidget(self.toolButton_37)
+
+        self.toolButton_38 = QtGui.QToolButton(self.widget)
+        self.toolButton_38.setCheckable(True)
+        self.toolButton_38.setObjectName("toolButton_38")
+        self.hboxlayout6.addWidget(self.toolButton_38)
+
+        self.toolButton_39 = QtGui.QToolButton(self.widget)
+        self.toolButton_39.setCheckable(True)
+        self.toolButton_39.setObjectName("toolButton_39")
+        self.hboxlayout6.addWidget(self.toolButton_39)
+
+        self.toolButton_40 = QtGui.QToolButton(self.widget)
+        self.toolButton_40.setCheckable(True)
+        self.toolButton_40.setObjectName("toolButton_40")
+        self.hboxlayout6.addWidget(self.toolButton_40)
+        self.vboxlayout4.addLayout(self.hboxlayout6)
+        self.vboxlayout3.addLayout(self.vboxlayout4)
+
+        spacerItem1 = QtGui.QSpacerItem(20,40,QtGui.QSizePolicy.Minimum,QtGui.QSizePolicy.Expanding)
+        self.vboxlayout3.addItem(spacerItem1)
         self.hboxlayout1.addLayout(self.vboxlayout3)
         self.vboxlayout.addWidget(self.splitter)
 
@@ -125,6 +264,26 @@ class Ui_Form(object):
         self.pause.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Form", "Input", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("Form", "Output", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_2.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_3.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_4.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_5.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_26.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_27.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_28.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_29.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_30.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_31.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_32.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_33.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_34.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_35.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_36.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_37.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_38.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_39.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolButton_40.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
 
 
 
