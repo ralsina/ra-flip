@@ -4,6 +4,7 @@ import sys,random
 from PyQt4 import QtCore,QtGui,QtSvg
 
 from Ui_field import Ui_Form
+import icons_rc
 
 delay=500
 
@@ -283,7 +284,7 @@ class Ball(FlipObject):
     def graphicsItem(self):
         self.item=QtGui.QGraphicsItemGroup()
         self.item.setZValue(3)
-        self.item1=QtSvg.QGraphicsSvgItem('ball.svg')
+        self.item1=QtSvg.QGraphicsSvgItem(":/ball.svg")
         self.item1.setZValue(1)
         self.item1.scale(0.009,0.009)
         self.item1.setPos(10*self.x+.5,10*self.y+.5)
@@ -322,7 +323,7 @@ class Ball(FlipObject):
         
 class VertWall(FlipObject):
     def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem('vwall.svg')
+        self.item=QtSvg.QGraphicsSvgItem(':/vwall.svg')
         self.item.setZValue(1)
         self.item.scale(0.009,0.009)
         self.item.setPos(10*self.x+.5,10*self.y+.5)
@@ -333,7 +334,7 @@ class VertWall(FlipObject):
 
 class HorizWall(FlipObject,Modifier):
     def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem('hwall.svg')
+        self.item=QtSvg.QGraphicsSvgItem(':/hwall.svg')
         self.item.setZValue(1)
         self.item.scale(0.009,0.009)
         self.item.setPos(10*self.x+.5,10*self.y+.5)
@@ -348,7 +349,7 @@ class HorizWall(FlipObject,Modifier):
         
 class SlashWall(FlipObject):
     def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem('swall.svg')
+        self.item=QtSvg.QGraphicsSvgItem(':/swall.svg')
         self.item.setZValue(1)
         self.item.scale(0.009,0.009)
         self.item.setPos(10*self.x+.5,10*self.y+.5)
@@ -381,7 +382,7 @@ class SlashWall(FlipObject):
 
 class BSlashWall(FlipObject):
     def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem('bswall.svg')
+        self.item=QtSvg.QGraphicsSvgItem(':/bswall.svg')
         self.item.setZValue(1)
         self.item.scale(0.009,0.009)
         self.item.setPos(10*self.x+.5,10*self.y+.5)
@@ -415,7 +416,7 @@ class BSlashWall(FlipObject):
 
 class RightSluice(FlipObject):
     def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem('rsluice.svg')
+        self.item=QtSvg.QGraphicsSvgItem(':/rsluice.svg')
         self.item.setZValue(1)
         self.item.scale(0.009,0.009)
         self.item.setPos(10*self.x+.5,10*self.y+.5)
@@ -465,7 +466,7 @@ class RightSluice(FlipObject):
 
 class LeftSluice(FlipObject):
     def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem('lsluice.svg')
+        self.item=QtSvg.QGraphicsSvgItem(':/lsluice.svg')
         self.item.setZValue(1)
         self.item.scale(0.009,0.009)
         self.item.setPos(10*self.x+.5,10*self.y+.5)
@@ -518,7 +519,7 @@ class LeftSluice(FlipObject):
 
 class DownSluice(FlipObject):
     def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem('dsluice.svg')
+        self.item=QtSvg.QGraphicsSvgItem(':/dsluice.svg')
         self.item.setZValue(1)
         self.item.scale(0.009,0.009)
         self.item.setPos(10*self.x+.5,10*self.y+.5)
@@ -568,7 +569,7 @@ class DownSluice(FlipObject):
 
 class UpSluice(FlipObject):
     def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem('usluice.svg')
+        self.item=QtSvg.QGraphicsSvgItem(':/usluice.svg')
         self.item.setZValue(1)
         self.item.scale(0.009,0.009)
         self.item.setPos(10*self.x+.5,10*self.y+.5)
@@ -727,7 +728,7 @@ class CharOut(TextObject):
 
 class Terminate(FlipObject):
     def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem('terminate.svg')
+        self.item=QtSvg.QGraphicsSvgItem(':/terminate.svg')
         self.item.setZValue(1)
         self.item.scale(0.009,0.009)
         self.item.setPos(10*self.x+.5,10*self.y+.5)
@@ -744,7 +745,7 @@ class Grille(TextObject):
             ball.kill()
 class Processor(FlipObject):
     def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem('processor.svg')
+        self.item=QtSvg.QGraphicsSvgItem(':/processor.svg')
         self.item.setZValue(1)
         self.item.scale(0.009,0.009)
         self.item.setPos(10*self.x+.5,10*self.y+.5)

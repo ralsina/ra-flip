@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-3.9.dtd">
 <!-- Project file for project ra-flip -->
-<!-- Saved: 2007-04-27, 10:44:14 -->
+<!-- Saved: 2007-04-30, 10:48:40 -->
 <!-- Copyright (C) 2007 Roberto Alsina, ralsina@kde.org -->
 <Project version="3.9">
   <ProgLanguage mixed="0">Python</ProgLanguage>
@@ -18,6 +18,9 @@ http://www.daimi.au.dk/~eriksoe/Flip/index.html</Description>
     </Source>
     <Source>
       <Name>ra-flip.py</Name>
+    </Source>
+    <Source>
+      <Name>icons_rc.py</Name>
     </Source>
   </Sources>
   <Forms>
@@ -39,9 +42,9 @@ http://www.daimi.au.dk/~eriksoe/Flip/index.html</Description>
   </Vcs>
   <FiletypeAssociations>
     <FiletypeAssociation pattern="*.ui.h" type="FORMS" />
-    <FiletypeAssociation pattern="*.ui" type="FORMS" />
-    <FiletypeAssociation pattern="*.idl" type="INTERFACES" />
-    <FiletypeAssociation pattern="*.py" type="SOURCES" />
     <FiletypeAssociation pattern="*.ptl" type="SOURCES" />
+    <FiletypeAssociation pattern="*.idl" type="INTERFACES" />
+    <FiletypeAssociation pattern="*.ui" type="FORMS" />
+    <FiletypeAssociation pattern="*.py" type="SOURCES" />
   </FiletypeAssociations>
 </Project>
