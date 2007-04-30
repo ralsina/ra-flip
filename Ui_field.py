@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/mnt/centos/home/ralsina/Desktop/proyectos/ra-flip/field.ui'
 #
-# Created: Mon Apr 30 09:35:45 2007
+# Created: Mon Apr 30 10:41:18 2007
 #      by: PyQt4 UI code generator 4.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -38,31 +38,31 @@ class Ui_Form(object):
         self.vboxlayout1.setObjectName("vboxlayout1")
 
         self.zoomIn = QtGui.QToolButton(self.layoutWidget)
-        self.zoomIn.setIcon(QtGui.QIcon("../../../../../../../opt/kde/share/icons/crystalsvg/32x32/actions/viewmag+.png"))
+        self.zoomIn.setIcon(QtGui.QIcon(":/viewmag+.png"))
         self.zoomIn.setAutoRepeat(True)
         self.zoomIn.setObjectName("zoomIn")
         self.vboxlayout1.addWidget(self.zoomIn)
 
         self.zoomOut = QtGui.QToolButton(self.layoutWidget)
-        self.zoomOut.setIcon(QtGui.QIcon("../../../../../../../opt/kde/share/icons/crystalsvg/32x32/actions/viewmag-.png"))
+        self.zoomOut.setIcon(QtGui.QIcon(":/viewmag-.png"))
         self.zoomOut.setAutoRepeat(True)
         self.zoomOut.setObjectName("zoomOut")
         self.vboxlayout1.addWidget(self.zoomOut)
 
         self.play = QtGui.QToolButton(self.layoutWidget)
-        self.play.setIcon(QtGui.QIcon("../../../../../../../opt/kde/share/icons/crystalsvg/32x32/actions/player_play.png"))
+        self.play.setIcon(QtGui.QIcon(":/player_play.png"))
         self.play.setAutoRepeat(True)
         self.play.setObjectName("play")
         self.vboxlayout1.addWidget(self.play)
 
         self.stop = QtGui.QToolButton(self.layoutWidget)
-        self.stop.setIcon(QtGui.QIcon("../../../../../../../opt/kde/share/icons/crystalsvg/32x32/actions/player_stop.png"))
+        self.stop.setIcon(QtGui.QIcon(":/player_stop.png"))
         self.stop.setAutoRepeat(True)
         self.stop.setObjectName("stop")
         self.vboxlayout1.addWidget(self.stop)
 
         self.pause = QtGui.QToolButton(self.layoutWidget)
-        self.pause.setIcon(QtGui.QIcon("../../../../../../../opt/kde/share/icons/crystalsvg/32x32/actions/player_pause.png"))
+        self.pause.setIcon(QtGui.QIcon(":/player_pause.png"))
         self.pause.setAutoRepeat(True)
         self.pause.setObjectName("pause")
         self.vboxlayout1.addWidget(self.pause)
@@ -121,29 +121,29 @@ class Ui_Form(object):
         self.hboxlayout2.setSpacing(6)
         self.hboxlayout2.setObjectName("hboxlayout2")
 
-        self.toolButton = QtGui.QToolButton(self.layoutWidget1)
-        self.toolButton.setIcon(QtGui.QIcon(":/hwall.svg"))
-        self.toolButton.setCheckable(True)
-        self.toolButton.setObjectName("toolButton")
-        self.hboxlayout2.addWidget(self.toolButton)
+        self.hwall = QtGui.QToolButton(self.layoutWidget1)
+        self.hwall.setIcon(QtGui.QIcon(":/hwall.svg"))
+        self.hwall.setCheckable(True)
+        self.hwall.setObjectName("hwall")
+        self.hboxlayout2.addWidget(self.hwall)
 
-        self.toolButton_2 = QtGui.QToolButton(self.layoutWidget1)
-        self.toolButton_2.setIcon(QtGui.QIcon(":/vwall.svg"))
-        self.toolButton_2.setCheckable(True)
-        self.toolButton_2.setObjectName("toolButton_2")
-        self.hboxlayout2.addWidget(self.toolButton_2)
+        self.vwall = QtGui.QToolButton(self.layoutWidget1)
+        self.vwall.setIcon(QtGui.QIcon(":/vwall.svg"))
+        self.vwall.setCheckable(True)
+        self.vwall.setObjectName("vwall")
+        self.hboxlayout2.addWidget(self.vwall)
 
-        self.toolButton_3 = QtGui.QToolButton(self.layoutWidget1)
-        self.toolButton_3.setIcon(QtGui.QIcon(":/swall.svg"))
-        self.toolButton_3.setCheckable(True)
-        self.toolButton_3.setObjectName("toolButton_3")
-        self.hboxlayout2.addWidget(self.toolButton_3)
+        self.swall = QtGui.QToolButton(self.layoutWidget1)
+        self.swall.setIcon(QtGui.QIcon(":/swall.svg"))
+        self.swall.setCheckable(True)
+        self.swall.setObjectName("swall")
+        self.hboxlayout2.addWidget(self.swall)
 
-        self.toolButton_4 = QtGui.QToolButton(self.layoutWidget1)
-        self.toolButton_4.setIcon(QtGui.QIcon(":/bswall.svg"))
-        self.toolButton_4.setCheckable(True)
-        self.toolButton_4.setObjectName("toolButton_4")
-        self.hboxlayout2.addWidget(self.toolButton_4)
+        self.bswall = QtGui.QToolButton(self.layoutWidget1)
+        self.bswall.setIcon(QtGui.QIcon(":/bswall.svg"))
+        self.bswall.setCheckable(True)
+        self.bswall.setObjectName("bswall")
+        self.hboxlayout2.addWidget(self.bswall)
         self.vboxlayout4.addLayout(self.hboxlayout2)
 
         self.hboxlayout3 = QtGui.QHBoxLayout()
@@ -152,21 +152,25 @@ class Ui_Form(object):
         self.hboxlayout3.setObjectName("hboxlayout3")
 
         self.toolButton_5 = QtGui.QToolButton(self.layoutWidget1)
+        self.toolButton_5.setIcon(QtGui.QIcon(":/lsluice.svg"))
         self.toolButton_5.setCheckable(True)
         self.toolButton_5.setObjectName("toolButton_5")
         self.hboxlayout3.addWidget(self.toolButton_5)
 
         self.toolButton_26 = QtGui.QToolButton(self.layoutWidget1)
+        self.toolButton_26.setIcon(QtGui.QIcon(":/rsluice.svg"))
         self.toolButton_26.setCheckable(True)
         self.toolButton_26.setObjectName("toolButton_26")
         self.hboxlayout3.addWidget(self.toolButton_26)
 
         self.toolButton_27 = QtGui.QToolButton(self.layoutWidget1)
+        self.toolButton_27.setIcon(QtGui.QIcon(":/usluice.svg"))
         self.toolButton_27.setCheckable(True)
         self.toolButton_27.setObjectName("toolButton_27")
         self.hboxlayout3.addWidget(self.toolButton_27)
 
         self.toolButton_28 = QtGui.QToolButton(self.layoutWidget1)
+        self.toolButton_28.setIcon(QtGui.QIcon(":/dsluice.svg"))
         self.toolButton_28.setCheckable(True)
         self.toolButton_28.setObjectName("toolButton_28")
         self.hboxlayout3.addWidget(self.toolButton_28)
@@ -178,6 +182,7 @@ class Ui_Form(object):
         self.hboxlayout4.setObjectName("hboxlayout4")
 
         self.toolButton_29 = QtGui.QToolButton(self.layoutWidget1)
+        self.toolButton_29.setIcon(QtGui.QIcon(":/processor.svg"))
         self.toolButton_29.setCheckable(True)
         self.toolButton_29.setObjectName("toolButton_29")
         self.hboxlayout4.addWidget(self.toolButton_29)
@@ -245,6 +250,7 @@ class Ui_Form(object):
         self.hboxlayout6.addWidget(self.toolButton_39)
 
         self.toolButton_40 = QtGui.QToolButton(self.layoutWidget1)
+        self.toolButton_40.setIcon(QtGui.QIcon(":/terminate.svg"))
         self.toolButton_40.setCheckable(True)
         self.toolButton_40.setObjectName("toolButton_40")
         self.hboxlayout6.addWidget(self.toolButton_40)
@@ -268,10 +274,10 @@ class Ui_Form(object):
         self.pause.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Form", "Input", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("Form", "Output", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolButton.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolButton_2.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolButton_3.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolButton_4.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.hwall.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.vwall.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.swall.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.bswall.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.toolButton_5.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.toolButton_26.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.toolButton_27.setText(QtGui.QApplication.translate("Form", "...", None, QtGui.QApplication.UnicodeUTF8))
