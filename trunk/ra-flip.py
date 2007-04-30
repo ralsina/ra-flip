@@ -71,11 +71,13 @@ class FieldWidget(QtGui.QWidget):
         data=modified_processor
         self.ui.field.output=self.ui.output
         self.field=Field(self.ui.field,data=data)
-        Ball(self.field,0,0).setSpeed(1)
 
 
         QtCore.QObject.connect(self.ui.zoomIn,QtCore.SIGNAL("clicked()"),self.zoomIn)
         QtCore.QObject.connect(self.ui.zoomOut,QtCore.SIGNAL("clicked()"),self.zoomOut)
+        QtCore.QObject.connect(self.ui.play,QtCore.SIGNAL("clicked()"),self.play)
+        QtCore.QObject.connect(self.ui.stop,QtCore.SIGNAL("clicked()"),self.stop)
+        QtCore.QObject.connect(self.ui.pause,QtCore.SIGNAL("toggled(bool)"),self.pause)
 
         self.zoomIn()
         self.zoomIn()
@@ -88,7 +90,31 @@ class FieldWidget(QtGui.QWidget):
 
     def zoomOut(self):
         self.ui.field.scale(1/1.2,1/1.2)
+
+    def play(self):
+        self.ui.play.setEnabled(False)
+        self.ui.stop.setEnabled(True)
+        self.ui.pause.setEnabled(True)
+        self.field.balls=[]
+        Ball(self.field,0,0).setSpeed(1)
+        self.field.run()
+
+    def stop(self):
+        self.ui.play.setEnabled(True)
+        self.ui.stop.setEnabled(False)
+        self.ui.pause.setEnabled(False)
+        for ball in self.field.balls:
+            ball.kill()
         
+    def pause(self,checked):
+        self.ui.play.setEnabled(False)
+        self.ui.stop.setEnabled(True)
+        self.ui.pause.setEnabled(True)
+        if checked:
+            self.field.terminate=True
+        else:
+            self.field.terminate=False
+            self.field.run()
         
 class Field(QtCore.QObject):
     def __init__(self,widget,width=15,height=15,data=None):
@@ -106,6 +132,8 @@ class Field(QtCore.QObject):
         else:
             self.loadData(data)
 
+        
+            
     def output(self,data):
         self.widget.output.append(data)
             
