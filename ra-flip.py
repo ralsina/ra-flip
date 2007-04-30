@@ -148,21 +148,21 @@ class Field(QtCore.QObject):
             x=0
             for char in line:
                 if char=='|':
-                    VertWall(self,x,y)
+                    VertWall(self,x,y,":/wall.svg")
                 elif char=='-':
-                    HorizWall(self,x,y)
+                    HorizWall(self,x,y,":/hwall.svg")
                 elif char=='\\':
-                    BSlashWall(self,x,y)
+                    BSlashWall(self,x,y,":/bswall.svg")
                 elif char=='/':
-                    SlashWall(self,x,y)
+                    SlashWall(self,x,y,":/swall.svg")
                 elif char=='>':
-                    RightSluice(self,x,y)
+                    RightSluice(self,x,y,":/rsluice.svg")
                 elif char=='<':
-                    LeftSluice(self,x,y)
+                    LeftSluice(self,x,y,":/lsluice.svg")
                 elif char=='^':
-                    UpSluice(self,x,y)
+                    UpSluice(self,x,y,":/usluice.svg")
                 elif char=='v':
-                    DownSluice(self,x,y)
+                    DownSluice(self,x,y,":/dsluice.svg")
                 elif char in "123456789":
                     Generator(self,x,y,char)
                 elif char=='0':
@@ -190,7 +190,7 @@ class Field(QtCore.QObject):
                 elif char=='X':
                     Processor(self,x,y)
                 elif char=='@':
-                    Always(self,x,y)
+                    Always(self,x,y,":/always.svg")
                 elif char=='~':
                     Odd(self,x,y)
                 elif char=='%':
@@ -293,7 +293,36 @@ class FlipObject:
         
     def handle(self,ball):
         return
-                
+
+
+class TextObject(FlipObject):
+    def __init__(self,field,x,y,c):
+        self.c=c
+        FlipObject.__init__(self,field,x,y)
+
+    def graphicsItem(self):
+        self.item=QtGui.QGraphicsSimpleTextItem(self.c)
+        br=self.item.boundingRect()
+        sf=9/br.height()
+        self.item.scale(sf,sf)
+        self.item.setZValue(1)
+        self.item.setPos(10*self.x+.5,10*self.y+.5)
+        return self.item
+
+class SVGObject(FlipObject):
+    def __init__(self,field,x,y,fname):
+        self.fname=fname
+        FlipObject.__init__(self,field,x,y)
+
+    def graphicsItem(self):
+        self.item=QtSvg.QGraphicsSvgItem(self.fname)
+        self.item.setZValue(1)
+        self.item.scale(0.009,0.009)
+        self.item.setPos(10*self.x+.5,10*self.y+.5)
+        return self.item
+
+
+        
 class Ball(FlipObject):
     def __init__(self,field,x,y,value=0):
         self.value=value
@@ -349,25 +378,11 @@ class Ball(FlipObject):
 
 
         
-class VertWall(FlipObject):
-    def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem(':/vwall.svg')
-        self.item.setZValue(1)
-        self.item.scale(0.009,0.009)
-        self.item.setPos(10*self.x+.5,10*self.y+.5)
-        return self.item
-
+class VertWall(SVGObject):
     def handle(self,ball):
         ball.sx=-ball.sx
 
-class HorizWall(FlipObject,Modifier):
-    def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem(':/hwall.svg')
-        self.item.setZValue(1)
-        self.item.scale(0.009,0.009)
-        self.item.setPos(10*self.x+.5,10*self.y+.5)
-        return self.item
-
+class HorizWall(SVGObject,Modifier):
     def handle(self,ball):
         ball.sy=-ball.sy
     def mvalue(self,v):
@@ -375,13 +390,7 @@ class HorizWall(FlipObject,Modifier):
             return 1
         return 0
         
-class SlashWall(FlipObject):
-    def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem(':/swall.svg')
-        self.item.setZValue(1)
-        self.item.scale(0.009,0.009)
-        self.item.setPos(10*self.x+.5,10*self.y+.5)
-        return self.item
+class SlashWall(SVGObject):
     def handle(self,ball):
         sy=-ball.sx
         sx=-ball.sy
@@ -408,13 +417,7 @@ class SlashWall(FlipObject):
             BSlashWall(self.field,self.x,self.y)
             self.item.scene().removeItem(self.item)    
 
-class BSlashWall(FlipObject):
-    def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem(':/bswall.svg')
-        self.item.setZValue(1)
-        self.item.scale(0.009,0.009)
-        self.item.setPos(10*self.x+.5,10*self.y+.5)
-        return self.item
+class BSlashWall(SVGObject):
     def handle(self,ball):
         sy=ball.sx
         sx=ball.sy
@@ -442,14 +445,7 @@ class BSlashWall(FlipObject):
             SlashWall(self.field,self.x,self.y)
             self.item.scene().removeItem(self.item)    
 
-class RightSluice(FlipObject):
-    def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem(':/rsluice.svg')
-        self.item.setZValue(1)
-        self.item.scale(0.009,0.009)
-        self.item.setPos(10*self.x+.5,10*self.y+.5)
-        return self.item
-    
+class RightSluice(SVGObject):
     def handle(self,ball):
         if ball.sx>0: #Pass ball
             return
@@ -492,14 +488,7 @@ class RightSluice(FlipObject):
             ball.sy=0
             ball.sx=1
 
-class LeftSluice(FlipObject):
-    def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem(':/lsluice.svg')
-        self.item.setZValue(1)
-        self.item.scale(0.009,0.009)
-        self.item.setPos(10*self.x+.5,10*self.y+.5)
-        return self.item
-    
+class LeftSluice(SVGObject):
     def handle(self,ball):
         if ball.sx<0: # Pass ball
             return
@@ -545,14 +534,7 @@ class LeftSluice(FlipObject):
             ball.sx=-1
 
 
-class DownSluice(FlipObject):
-    def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem(':/dsluice.svg')
-        self.item.setZValue(1)
-        self.item.scale(0.009,0.009)
-        self.item.setPos(10*self.x+.5,10*self.y+.5)
-        return self.item
-    
+class DownSluice(SVGObject):
     def handle(self,ball):
         if ball.sy>0:
             return
@@ -595,14 +577,7 @@ class DownSluice(FlipObject):
             ball.sx=0
 
 
-class UpSluice(FlipObject):
-    def graphicsItem(self):
-        self.item=QtSvg.QGraphicsSvgItem(':/usluice.svg')
-        self.item.setZValue(1)
-        self.item.scale(0.009,0.009)
-        self.item.setPos(10*self.x+.5,10*self.y+.5)
-        return self.item
-    
+class UpSluice(SVGObject):
     def handle(self,ball):
         if ball.sy<0:
             return
@@ -643,21 +618,6 @@ class UpSluice(FlipObject):
         else:
             ball.sy=-1
             ball.sx=0
-
-class TextObject(FlipObject):
-    def __init__(self,field,x,y,c):
-        self.c=c
-        FlipObject.__init__(self,field,x,y)
-
-    def graphicsItem(self):
-        self.item=QtGui.QGraphicsSimpleTextItem(self.c)
-        br=self.item.boundingRect()
-        sf=9/br.height()
-        self.item.scale(sf,sf)
-        self.item.setZValue(1)
-        self.item.setPos(10*self.x+.5,10*self.y+.5)
-        return self.item
-
             
 class Generator(TextObject):
     def __init__(self,field,x,y,n):
@@ -854,9 +814,9 @@ class Processor(FlipObject):
 
         ball.kill()
                 
-class Always(TextObject,Modifier):
-    def __init__(self,field,x,y):
-        TextObject.__init__(self,field,x,y,'@')
+class Always(SVGObject,Modifier):
+    def __init__(self,field,x,y,fname):
+        SVGObject.__init__(self,field,x,y,':/always.svg')
     def mvalue(self,v):
         return 1
         

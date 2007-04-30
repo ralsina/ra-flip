@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/" >
+        <file>always.svg</file>
         <file>ball.svg</file>
         <file>bswall.svg</file>
         <file>dsluice.svg</file>
