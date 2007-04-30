@@ -81,6 +81,9 @@
          </item>
          <item>
           <widget class="QToolButton" name="stop" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
            <property name="text" >
             <string>...</string>
            </property>
@@ -94,11 +97,17 @@
          </item>
          <item>
           <widget class="QToolButton" name="pause" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
            <property name="text" >
             <string>...</string>
            </property>
            <property name="icon" >
             <iconset resource="icons.qrc" >:/player_pause.png</iconset>
+           </property>
+           <property name="checkable" >
+            <bool>true</bool>
            </property>
            <property name="autoRepeat" >
             <bool>true</bool>

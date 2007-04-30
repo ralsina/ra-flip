@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/mnt/centos/home/ralsina/Desktop/proyectos/ra-flip/field.ui'
 #
-# Created: Mon Apr 30 10:41:18 2007
+# Created: Mon Apr 30 11:56:13 2007
 #      by: PyQt4 UI code generator 4.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -56,13 +56,16 @@ class Ui_Form(object):
         self.vboxlayout1.addWidget(self.play)
 
         self.stop = QtGui.QToolButton(self.layoutWidget)
+        self.stop.setEnabled(False)
         self.stop.setIcon(QtGui.QIcon(":/player_stop.png"))
         self.stop.setAutoRepeat(True)
         self.stop.setObjectName("stop")
         self.vboxlayout1.addWidget(self.stop)
 
         self.pause = QtGui.QToolButton(self.layoutWidget)
+        self.pause.setEnabled(False)
         self.pause.setIcon(QtGui.QIcon(":/player_pause.png"))
+        self.pause.setCheckable(True)
         self.pause.setAutoRepeat(True)
         self.pause.setObjectName("pause")
         self.vboxlayout1.addWidget(self.pause)
