@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/mnt/centos/home/ralsina/Desktop/proyectos/ra-flip/field.ui'
 #
-# Created: Mon Apr 30 11:56:13 2007
+# Created: Mon Apr 30 17:53:30 2007
 #      by: PyQt4 UI code generator 4.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -212,6 +212,7 @@ class Ui_Form(object):
         self.hboxlayout5.setObjectName("hboxlayout5")
 
         self.toolButton_33 = QtGui.QToolButton(self.layoutWidget1)
+        self.toolButton_33.setIcon(QtGui.QIcon(":/always.svg"))
         self.toolButton_33.setCheckable(True)
         self.toolButton_33.setObjectName("toolButton_33")
         self.hboxlayout5.addWidget(self.toolButton_33)
