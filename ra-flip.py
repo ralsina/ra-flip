@@ -330,7 +330,7 @@ class Field(QtCore.QObject):
         for ball in self.balls:
             if not ball: continue
             ball.animated = False
-        
+        # FIXME: use animations
         for i in range(0, 10):
             for i in range(0, len(self.balls)):
                 ball = self.balls[i]
