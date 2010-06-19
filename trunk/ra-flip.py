@@ -208,6 +208,7 @@ class Field(QtCore.QObject):
         self.scene = QtGui.QGraphicsScene()
         widget.setScene(self.scene)
         self.widget = widget
+        self.widget.setRenderHints(QtGui.QPainter.Antialiasing | QtGui.QPainter.SmoothPixmapTransform)
         self.balls = []
         self.terminate = False
         if not data:
